@@ -15,22 +15,13 @@
                 $value1 = intval($_POST['value1']);
                 $value2 = intval($_POST['value2']); 
                 $operand = $_POST['operand'];
-                switch ($operand) {
-                    case "sum":
-                        $result = $value1 + $value2;
-                        break;
-                    case "minus":
-                        $result = $value1 - $value2;
-                        break;
-                    case "mul":
-                        $result = $value1 * $value2;
-                        break;
-                    case "div":
-                        $result = $value1 / $value2;
-                        break;
-                    default:
-                        $result = $value1 % $value2;
-                }
+                $result = match ($operand) {
+                    'sum' => $value1 + $value2,
+                    'minus' => $value1 - $value2,
+                    'mul' => $value1 * $value2,
+                    'div' => $value1 / $value2,
+                    default => $value1 % $value2
+                };
             }                      
         ?>
         <div class="container">
