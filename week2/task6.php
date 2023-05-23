@@ -1,3 +1,9 @@
+<?php
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+?>
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -13,17 +19,32 @@
                     <h1>Contact Us</h1>
                     <div class="mb-3">
                         <label for="fullname" class="form-label">Fullname *</label>
-                        <input type="text" name="fullname" class="form-control" id="fullname">
+                        <input type="text" name="fullname" class="form-control" id="fullname" value="<?php if (isset($_SESSION['fullname'])) { echo $_SESSION['fullname']; } ?>">
+                        <?php
+                            if (isset($_SESSION['errorFullName']) && $_SESSION['errorFullName']) {
+                                echo '<p class="text-danger">FullName is required!</p>';
+                            }
+                        ?>
                     </div>
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Email *</label>
-                        <input type="email" name="email" class="form-control" id="email">
+                        <input type="email" name="email" class="form-control" id="email" value="<?php echo $_SESSION['email']??'' ?>">
+                        <?php
+                            if (isset($_SESSION['errorEmail']) && $_SESSION['errorEmail']) {
+                                echo '<p class="text-danger">Email is required!</p>';
+                            }
+                        ?>
                     </div>
 
                     <div class="mb-3">
                         <label for="message" class="form-label">Message *</label>
-                        <textarea class="form-control" name="message" id="message"></textarea>
+                        <textarea class="form-control" name="message" id="message"><?=$_SESSION['message']??'' ?></textarea>
+                        <?php
+                            if (isset($_SESSION['errorMessage']) && $_SESSION['errorMessage']) {
+                                echo '<p class="text-danger">Message is required!</p>';
+                            }
+                        ?>
                     </div>
                  
                     <button type="submit" class="btn btn-primary">Send</button>
