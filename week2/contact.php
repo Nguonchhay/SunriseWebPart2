@@ -40,6 +40,13 @@ if ($isRedirect) {
 }
 
 
+unset($_SESSION['fullname']);
+unset($_SESSION['email']);
+unset($_SESSION['message']);
+unset($_SESSION['errorFullName']);
+unset($_SESSION['errorEmail']);
+unset($_SESSION['errorMessage']);
+$_SESSION['submittedFullName'] = $_POST['fullname'];
 header("Location: thank-you.php");
 exit();
 
