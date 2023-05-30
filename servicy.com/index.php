@@ -27,17 +27,18 @@
                 <a class="navbar-brand" href="/sunrise-web2/servicy.com">
                     Service Easy
                 </a>
-                <?php echo renderMenu('home'); ?>
+                <?php echo renderMenu(); ?>
             </div>
         </nav>
         <!-- Masthead-->
-        <header class="masthead">
-            <div class="container">
-                <div class="masthead-subheading">Welcome To Our Studio!</div>
-                <div class="masthead-heading text-uppercase">It's Nice To Meet You</div>
-                <a class="btn btn-primary btn-xl text-uppercase" href="#services">Tell Me More</a>
-            </div>
-        </header>
+        <?php 
+            echo renderSectionHeader(
+                'Welcome To Our Studio!',
+                'It\'s Nice To Meet You',
+                'Tell Me More',
+                '#services'
+            ); 
+        ?>
         <!-- Services-->
         <section class="page-section" id="services">
             <div class="container">

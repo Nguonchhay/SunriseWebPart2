@@ -138,4 +138,18 @@ function renderPortfolioModal($productName = '', $shortDec = '', $imageURrl = ''
     ';
 }
 
+function renderSectionHeader($smallTitle, $bigTitle, $buttonText = '', $buttonLink = '') {
+    return '
+        <header class="masthead">
+            <div class="container">
+                <div class="masthead-subheading">' . $smallTitle . '</div>
+                <div class="masthead-heading text-uppercase">' . $bigTitle . '</div>
+                ' . (
+                    $buttonText !== '' ? '<a class="btn btn-primary btn-xl text-uppercase" href="' . $buttonLink . '">' . $buttonText . '</a>' : ''
+                ) . '
+            </div>
+        </header>
+    ';
+}
+
 ?>
