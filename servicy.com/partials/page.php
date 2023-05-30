@@ -1,6 +1,6 @@
 <?php
 
-function renderMenu() {
+function renderMenu($curPage = 'home') {
     return '
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
@@ -9,22 +9,22 @@ function renderMenu() {
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="/sunrise-web2/servicy.com">Home</a>
+                    <a class="nav-link' . ($curPage === 'home' ? ' active' : '') . '" href="/sunrise-web2/servicy.com">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="service.php">Services</a>
+                    <a class="nav-link' . ($curPage === 'service' ? ' active' : '') . '" href="service.php">Services</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="portfolio.php">Portfolio</a>
+                    <a class="nav-link' . ($curPage === 'portfolio' ? ' active' : '') . '" href="portfolio.php">Portfolio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.php">About</a>
+                    <a class="nav-link' . ($curPage === 'about' ? ' active' : '') . '" href="about.php">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="team.php">Team</a>
+                    <a class="nav-link' . ($curPage === 'team' ? ' active' : '') . '" href="team.php">Team</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.php">Contact</a>
+                    <a class="nav-link' . ($curPage === 'contact' ? ' active' : '') . '" href="contact.php">Contact</a>
                 </li>
             </ul>
         </div>
@@ -68,6 +68,7 @@ function renderHeadBlock($pageTitle) {
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/app.css" rel="stylesheet" />
     ';
 }
 

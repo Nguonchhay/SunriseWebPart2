@@ -27,7 +27,7 @@
                 <a class="navbar-brand" href="/sunrise-web2/servicy.com">
                     Service Easy
                 </a>
-                <?php echo renderMenu(); ?>
+                <?php echo renderMenu('home'); ?>
             </div>
         </nav>
         <!-- Masthead-->

@@ -14,7 +14,7 @@
                 <a class="navbar-brand" href="/">
                     Service Easy
                 </a>
-                <?php echo renderMenu(); ?>
+                <?php echo renderMenu('team'); ?>
             </div>
         </nav>
         <!-- Masthead-->
