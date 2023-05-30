@@ -18,6 +18,14 @@
             </div>
         </nav>
         <!-- Masthead-->
+        <?php 
+            echo renderSectionHeader(
+                'Welcome To Our Service!',
+                'Tell us what you want',
+                'Click Here',
+                '#services'
+            ); 
+        ?>
         <header class="masthead">
             <div class="container">
                 <div class="masthead-subheading">Welcome To Our Studio!</div>
