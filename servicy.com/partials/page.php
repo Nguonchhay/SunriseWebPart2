@@ -30,6 +30,21 @@ $menus = [
         'key' => 'contact',
         'label' => 'Contact Us',
         'link' => 'contact.php'
+    ],
+    [
+        'key' => 'sign_up',
+        'label' => 'Sign Up',
+        'link' => 'admin/register.php'
+    ],
+    [
+        'key' => 'devider',
+        'label' => '|',
+        'link' => 'javascript:void'
+    ],
+    [
+        'key' => 'sign_in',
+        'label' => 'Sign In',
+        'link' => 'admin/login.php'
     ]
 ];
 
