@@ -47,14 +47,14 @@ if (session_status() === PHP_SESSION_NONE) {
                             <form action="auth/register.php" method="POST" class="user">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="firstName" name="firstName" placeholder="First Name">
+                                        <input type="text" class="form-control form-control-user" id="firstName" name="firstName" placeholder="First Name" value="<?php echo $_SESSION['newUser']['firstName'] ?? '';?>">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="lastName" name="lastName" placeholder="Last Name">
+                                        <input type="text" class="form-control form-control-user" id="lastName" name="lastName" placeholder="Last Name" value="<?php echo $_SESSION['newUser']['lastName'] ?? '';?>">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="email" name="email" placeholder="Email Address *">
+                                    <input type="email" class="form-control form-control-user" id="email" name="email" placeholder="Email Address *" value="<?php echo $_SESSION['newUser']['email'] ?? '';?>">
                                     <p>
                                         <?php echo isset($_SESSION['errorEmailMessage']) ? $_SESSION['errorEmailMessage'] : '' ?>
                                     </p>
