@@ -1,55 +1,69 @@
 <?php
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $menus = [
     [
         'key' => 'home',
         'label' => 'Home',
-        'link' => '/sunrise-web2/servicy.com'
+        'link' => '/sunrise-web2/servicy.com',
+        'isPublic' => true
     ],
     [
         'key' => 'service',
         'label' => 'Services',
-        'link' => 'service.php'
+        'link' => 'service.php',
+        'isPublic' => true
     ],
     [
         'key' => 'portfolio',
         'label' => 'Portfolios',
-        'link' => 'portfolio.php'
+        'link' => 'portfolio.php',
+        'isPublic' => true
     ],
     [
         'key' => 'about',
         'label' => 'About',
-        'link' => 'about.php'
+        'link' => 'about.php',
+        'isPublic' => true
     ],
     [
         'key' => 'team',
         'label' => 'Team',
-        'link' => 'team.php'
+        'link' => 'team.php',
+        'isPublic' => true
     ],
     [
         'key' => 'contact',
         'label' => 'Contact Us',
-        'link' => 'contact.php'
+        'link' => 'contact.php',
+        'isPublic' => true
     ],
     [
         'key' => 'sign_up',
         'label' => 'Sign Up',
-        'link' => 'admin/register.php'
+        'link' => 'admin/register.php',
+        'isPublic' => true
     ],
     [
         'key' => 'devider',
         'label' => '|',
-        'link' => 'javascript:void'
+        'link' => 'javascript:void',
+        'isPublic' => true
     ],
     [
         'key' => 'sign_in',
         'label' => 'Sign In',
-        'link' => 'admin/login.php'
+        'link' => 'admin/login.php',
+        'isPublic' => true
     ],
     [
         'key' => 'user_info',
         'label' => 'User',
         'link' => '#',
+        'isPublic' => false,
         'children' => [
             [
                 'key' => 'profile',
@@ -76,25 +90,50 @@ function renderMenuItem($key, $label, $link, $curPage) {
 function renderMenu($curPage = 'home') {
     $menuItems = '';
     foreach($GLOBALS['menus'] as $menu) {
-        if (isset($menu['children'])) {
-            $menuChildren = '';
-            foreach ($menu['children'] as $child) {
-                $menuChildren .= '<li><a class="dropdown-item" href="' . $child['link'] . '">' . $child['label'] . '</a></li>';
+        if ($menu['isPublic']) {
+            if (isset($menu['children'])) {
+                $menuChildren = '';
+                foreach ($menu['children'] as $child) {
+                    $menuChildren .= '<li><a class="dropdown-item" href="' . $child['link'] . '">' . $child['label'] . '</a></li>';
+                }
+    
+                $menuItems .= '
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            ' . $menu['label'] . '
+                        </a>
+                    
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            ' . $menuChildren . '
+                        </ul>
+                    </li>
+                ';
+            } else {
+                $menuItems .= renderMenuItem($menu['key'], $menu['label'], $menu['link'], $curPage);
             }
-
-            $menuItems .= '
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        ' . $menu['label'] . '
-                    </a>
-                
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        ' . $menuChildren . '
-                    </ul>
-                </li>
-            ';
         } else {
-            $menuItems .= renderMenuItem($menu['key'], $menu['label'], $menu['link'], $curPage);
+            if (isset($_SESSION['isAuth']) && $_SESSION['isAuth']) {
+                if (isset($menu['children'])) {
+                    $menuChildren = '';
+                    foreach ($menu['children'] as $child) {
+                        $menuChildren .= '<li><a class="dropdown-item" href="' . $child['link'] . '">' . $child['label'] . '</a></li>';
+                    }
+        
+                    $menuItems .= '
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                ' . $menu['label'] . '
+                            </a>
+                        
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                ' . $menuChildren . '
+                            </ul>
+                        </li>
+                    ';
+                } else {
+                    $menuItems .= renderMenuItem($menu['key'], $menu['label'], $menu['link'], $curPage);
+                }
+            }
         }
     }
 

@@ -1,4 +1,8 @@
 <?php
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
     // Expected link in email: http://localhost/sunrise-web2/servicy.com/admin/register-verify.php?hash=sfffkwfsfsfsdfsdfbsd
     /**
      * Steps:
