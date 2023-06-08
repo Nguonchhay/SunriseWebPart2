@@ -51,7 +51,6 @@ if ($isRedirect) {
 $_SESSION['newUser']['password'] = password_hash($password, PASSWORD_BCRYPT);
 
 // Create user in database
-var_dump($_SESSION['newUser']);
 /**
  * Next actions:
  * 1. Search for existing user by email
@@ -61,5 +60,9 @@ var_dump($_SESSION['newUser']);
  * 2.1. If insert success, send link to user email to complete registration
  * 2.2. If insert failed, display failed reason
  */
+
+ // Redirect to success registration page
+ header("Location: ../register-success.php");
+ exit();
 
 ?>
