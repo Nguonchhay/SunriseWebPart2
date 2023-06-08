@@ -45,6 +45,23 @@ $menus = [
         'key' => 'sign_in',
         'label' => 'Sign In',
         'link' => 'admin/login.php'
+    ],
+    [
+        'key' => 'user_info',
+        'label' => 'User',
+        'link' => '#',
+        'children' => [
+            [
+                'key' => 'profile',
+                'label' => 'Profile',
+                'link' => '#'
+            ],
+            [
+                'key' => 'logout',
+                'label' => 'Logout',
+                'link' => '#'
+            ]
+        ]
     ]
 ];
 
@@ -59,7 +76,26 @@ function renderMenuItem($key, $label, $link, $curPage) {
 function renderMenu($curPage = 'home') {
     $menuItems = '';
     foreach($GLOBALS['menus'] as $menu) {
-        $menuItems .= renderMenuItem($menu['key'], $menu['label'], $menu['link'], $curPage);
+        if (isset($menu['children'])) {
+            $menuChildren = '';
+            foreach ($menu['children'] as $child) {
+                $menuChildren .= '<li><a class="dropdown-item" href="' . $child['link'] . '">' . $child['label'] . '</a></li>';
+            }
+
+            $menuItems .= '
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        ' . $menu['label'] . '
+                    </a>
+                
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        ' . $menuChildren . '
+                    </ul>
+                </li>
+            ';
+        } else {
+            $menuItems .= renderMenuItem($menu['key'], $menu['label'], $menu['link'], $curPage);
+        }
     }
 
     return '
