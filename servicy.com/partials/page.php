@@ -8,62 +8,56 @@ $menus = [
     [
         'key' => 'home',
         'label' => 'Home',
-        'link' => '/sunrise-web2/servicy.com',
-        'isPublic' => true
+        'link' => '/sunrise-web2/servicy.com'
     ],
     [
         'key' => 'service',
         'label' => 'Services',
-        'link' => 'service.php',
-        'isPublic' => true
+        'link' => 'service.php'
     ],
     [
         'key' => 'portfolio',
         'label' => 'Portfolios',
-        'link' => 'portfolio.php',
-        'isPublic' => true
+        'link' => 'portfolio.php'
     ],
     [
         'key' => 'about',
         'label' => 'About',
-        'link' => 'about.php',
-        'isPublic' => true
+        'link' => 'about.php'
     ],
     [
         'key' => 'team',
         'label' => 'Team',
-        'link' => 'team.php',
-        'isPublic' => true
+        'link' => 'team.php'
     ],
     [
         'key' => 'contact',
         'label' => 'Contact Us',
-        'link' => 'contact.php',
-        'isPublic' => true
+        'link' => 'contact.php'
     ],
     [
         'key' => 'sign_up',
         'label' => 'Sign Up',
         'link' => 'admin/register.php',
-        'isPublic' => true
+        'hiddenAfterAuth' => true
     ],
     [
         'key' => 'devider',
         'label' => '|',
         'link' => 'javascript:void',
-        'isPublic' => true
+        'hiddenAfterAuth' => true
     ],
     [
         'key' => 'sign_in',
         'label' => 'Sign In',
         'link' => 'admin/login.php',
-        'isPublic' => true
+        'hiddenAfterAuth' => true
     ],
     [
         'key' => 'user_info',
         'label' => 'User',
         'link' => '#',
-        'isPublic' => false,
+        'hiddenAfterAuth' => false,
         'children' => [
             [
                 'key' => 'profile',
@@ -73,7 +67,7 @@ $menus = [
             [
                 'key' => 'logout',
                 'label' => 'Logout',
-                'link' => '#'
+                'link' => 'admin/auth/logout.php'
             ]
         ]
     ]
@@ -87,53 +81,46 @@ function renderMenuItem($key, $label, $link, $curPage) {
     ';
 }
 
+function renderMenuItemWithCondition($menu) {
+    $menuItems = '';
+    if (isset($menu['children'])) {
+        $menuChildren = '';
+        foreach ($menu['children'] as $child) {
+            $menuChildren .= '<li><a class="dropdown-item" href="' . $child['link'] . '">' . $child['label'] . '</a></li>';
+        }
+
+        $menuItems .= '
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    ' . $menu['label'] . '
+                </a>
+            
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    ' . $menuChildren . '
+                </ul>
+            </li>
+        ';
+    } else {
+        $menuItems .= renderMenuItem($menu['key'], $menu['label'], $menu['link'], $curPage);
+    }
+    return $menuItems;
+}
+
 function renderMenu($curPage = 'home') {
     $menuItems = '';
     foreach($GLOBALS['menus'] as $menu) {
-        if ($menu['isPublic']) {
-            if (isset($menu['children'])) {
-                $menuChildren = '';
-                foreach ($menu['children'] as $child) {
-                    $menuChildren .= '<li><a class="dropdown-item" href="' . $child['link'] . '">' . $child['label'] . '</a></li>';
+        if (isset($menu['hiddenAfterAuth'])) {
+            if (isset($_SESSION['isAuth']) && $_SESSION['isAuth']) {
+                if (!$menu['hiddenAfterAuth']) {
+                    $menuItems .= renderMenuItemWithCondition($menu);
                 }
-    
-                $menuItems .= '
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                            ' . $menu['label'] . '
-                        </a>
-                    
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            ' . $menuChildren . '
-                        </ul>
-                    </li>
-                ';
             } else {
-                $menuItems .= renderMenuItem($menu['key'], $menu['label'], $menu['link'], $curPage);
+                if ($menu['hiddenAfterAuth']) {
+                    $menuItems .= renderMenuItemWithCondition($menu);
+                }
             }
         } else {
-            if (isset($_SESSION['isAuth']) && $_SESSION['isAuth']) {
-                if (isset($menu['children'])) {
-                    $menuChildren = '';
-                    foreach ($menu['children'] as $child) {
-                        $menuChildren .= '<li><a class="dropdown-item" href="' . $child['link'] . '">' . $child['label'] . '</a></li>';
-                    }
-        
-                    $menuItems .= '
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                ' . $menu['label'] . '
-                            </a>
-                        
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                ' . $menuChildren . '
-                            </ul>
-                        </li>
-                    ';
-                } else {
-                    $menuItems .= renderMenuItem($menu['key'], $menu['label'], $menu['link'], $curPage);
-                }
-            }
+            $menuItems .= renderMenuItemWithCondition($menu);
         }
     }
 
