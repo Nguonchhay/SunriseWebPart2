@@ -81,7 +81,7 @@ function renderMenuItem($key, $label, $link, $curPage) {
     ';
 }
 
-function renderMenuItemWithCondition($menu) {
+function renderMenuItemWithCondition($menu, $curPage = '') {
     $menuItems = '';
     if (isset($menu['children'])) {
         $menuChildren = '';
@@ -112,15 +112,15 @@ function renderMenu($curPage = 'home') {
         if (isset($menu['hiddenAfterAuth'])) {
             if (isset($_SESSION['isAuth']) && $_SESSION['isAuth']) {
                 if (!$menu['hiddenAfterAuth']) {
-                    $menuItems .= renderMenuItemWithCondition($menu);
+                    $menuItems .= renderMenuItemWithCondition($menu, $curPage);
                 }
             } else {
                 if ($menu['hiddenAfterAuth']) {
-                    $menuItems .= renderMenuItemWithCondition($menu);
+                    $menuItems .= renderMenuItemWithCondition($menu, $curPage);
                 }
             }
         } else {
-            $menuItems .= renderMenuItemWithCondition($menu);
+            $menuItems .= renderMenuItemWithCondition($menu, $curPage);
         }
     }
 
