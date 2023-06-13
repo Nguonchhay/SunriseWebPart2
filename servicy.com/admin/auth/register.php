@@ -1,5 +1,7 @@
 <?php
 
+require_once "../../models/User.php";
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -49,6 +51,15 @@ if ($isRedirect) {
 }
 
 $_SESSION['newUser']['password'] = password_hash($password, PASSWORD_BCRYPT);
+
+$newUser = new User(
+    0, 
+    $_SESSION['newUser']['firstName'], 
+    $_SESSION['newUser']['lastName'], 
+    $_SESSION['newUser']['email'],
+    $password,
+    ''
+);
 
 // Create user in database
 /**
