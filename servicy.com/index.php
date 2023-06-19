@@ -83,7 +83,7 @@
                     <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
                 </div>
                 <?php
-                    $portfolio = new Portfolio();
+                    $portfolio = new Portfolio(0, '', '', '', '', '');
                     echo $portfolio->renderPortfolios();
                 ?>
             </div>
