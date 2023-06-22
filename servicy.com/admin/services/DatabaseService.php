@@ -48,8 +48,16 @@ class DatabaseService {
     /**
      * Function to execute SQL INSERT, UPDATE, and DELETE statement
      */
-    public function executeUpdate() {
-
+    public function executeUpdate($sql) {
+        $result = 0;
+        if ($this->con) {
+            if ($this->con->query($sql) === TRUE) {
+                $result = 1;
+            } else {
+                echo "Error: " . $sql . "<br>" . $conn->error;
+            }              
+        }
+        return $result;
     }
 
 }

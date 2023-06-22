@@ -1,6 +1,7 @@
 <?php
 
 require_once "../../models/User.php";
+require_once "../services/DatabaseService.php";
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -45,11 +46,6 @@ if (empty($password) || empty($repeatPassword)) {
     }
 }
 
-if ($isRedirect) {
-    header("Location: ../register.php");
-    exit();
-}
-
 $_SESSION['newUser']['password'] = password_hash($password, PASSWORD_BCRYPT);
 
 $newUser = new User(
@@ -57,20 +53,25 @@ $newUser = new User(
     $_SESSION['newUser']['firstName'], 
     $_SESSION['newUser']['lastName'], 
     $_SESSION['newUser']['email'],
-    $password,
+    $_SESSION['newUser']['password'],
     ''
 );
 
 // Create user in database
-/**
- * Next actions:
- * 1. Search for existing user by email
- * 1.1. If yes, alert user for existing account and ask them to login instead
- * 1.2. If No, prepare to stor user
- * 2. Prepare SQL statement to insert new user
- * 2.1. If insert success, send link to user email to complete registration
- * 2.2. If insert failed, display failed reason
- */
+ $_SESSION['errorUserMessage'] = '';
+ $isExisted = $newUser->searchByEmail($newUser->email);
+ if ($isExisted) {
+    $isRedirect = true;
+    $_SESSION['errorUserMessage'] = 'User already existed!';
+ } else {
+    $newUser->register($newUser);
+ }
+
+ if ($isRedirect) {
+    header("Location: ../register.php");
+    exit();
+}
+
 
  // Redirect to success registration page
  header("Location: ../register-success.php");
