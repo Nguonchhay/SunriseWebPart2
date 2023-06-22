@@ -1,6 +1,7 @@
 <?php
 
 require_once "./partials/page.php";
+require_once "./admin/services/DatabaseService.php";
 
 class Portfolio {
 
@@ -15,56 +16,22 @@ class Portfolio {
 
 
     public function getPortfolios() {
-        $portfolios = [
-            new Portfolio(
-                1,
-                'assets/img/portfolio/1.jpg',
-                'Threads',
-                'Illustration',
-                'Lorem ipsum dolor sit amet consectetur.',
-                'Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!'
-            ),
-            new Portfolio(
-                2,
-                'assets/img/portfolio/2.jpg',
-                'Explore',
-                'Graphic Design',
-                'Lorem ipsum dolor sit amet consectetur.',
-                'Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!'
-            ),
-            new Portfolio(
-                3,
-                'assets/img/portfolio/3.jpg',
-                'Finish',
-                'Identity',
-                'Lorem ipsum dolor sit amet consectetur.',
-                'Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!'
-            ),
-            new Portfolio(
-                4,
-                'assets/img/portfolio/4.jpg',
-                'Lines',
-                'Branding',
-                'Lorem ipsum dolor sit amet consectetur.',
-                'Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!'
-            ),
-            new Portfolio(
-                5,
-                'assets/img/portfolio/5.jpg',
-                'Southwest',
-                'Website Design',
-                'Lorem ipsum dolor sit amet consectetur.',
-                'Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!'
-            ),
-            new Portfolio(
-                6,
-                'assets/img/portfolio/6.jpg',
-                'Window',
-                'Photography',
-                'Lorem ipsum dolor sit amet consectetur.',
-                'Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!'
-            )
-        ];
+        $portfolios = [];
+        $db = new DatabaseService('localhost', 'root', 'root');
+        $db->openConnection();
+        $sql = 'SELECT * FROM portfolios;';
+        $result = $db->executeQuery($sql);
+        foreach ($result as $row) {
+            $portfolios[] = new Portfolio(
+                $row['id'],
+                $row['imageUrl'],
+                $row['title'],
+                $row['portfolioType'],
+                $row['shortDesc'],
+                $row['desc']
+            );
+        }
+        $db->closeConnection();
 
         return $portfolios;
     }
