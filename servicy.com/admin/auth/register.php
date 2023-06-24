@@ -1,7 +1,10 @@
 <?php
 
-require_once "../../models/User.php";
-require_once "../services/DatabaseService.php";
+ini_set ('display_errors', 1);  
+ini_set ('display_startup_errors', 1);  
+error_reporting (E_ALL);  
+
+require_once __DIR__ . "/../../models/User.php";
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -49,11 +52,11 @@ if (empty($password) || empty($repeatPassword)) {
 $_SESSION['newUser']['password'] = password_hash($password, PASSWORD_BCRYPT);
 
 $newUser = new User(
-    0, 
-    $_SESSION['newUser']['firstName'], 
-    $_SESSION['newUser']['lastName'], 
     $_SESSION['newUser']['email'],
     $_SESSION['newUser']['password'],
+    0, 
+    $_SESSION['newUser']['firstName'], 
+    $_SESSION['newUser']['lastName'],
     ''
 );
 

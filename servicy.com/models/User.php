@@ -1,23 +1,23 @@
 <?php
 
-require_once "/../admin/services/DatabaseService.php";
+require_once __DIR__ . "/../admin/services/DatabaseService.php";
 
 class User {
-    protected $id;
-    protected $firstName;
-    protected $lastName;
-    protected $email;
-    protected $password;
-    protected $gender;
-    protected $isEmailVerified;
+    public $id;
+    public $firstName;
+    public $lastName;
+    public $email;
+    public $password;
+    public $gender;
+    public $isEmailVerified;
 
 
     public function __construct(
+        $email,
+        $password,
         $id = 0,
         $firstName = '',
         $lastName = '',
-        $email,
-        $password,
         $gender = ''
     ) {
         $this->id = $id;
@@ -38,7 +38,7 @@ class User {
         $db = new DatabaseService('localhost', 'root', 'root');
         $db->openConnection();
 
-        $sql = 'SELECT * FROM users WHERE email="' . $user->email . '" AND password="' . $user->password . '" LIMIT 1;';
+        $sql = 'SELECT * FROM users WHERE email="' . $email . '" LIMIT 1;';
         $result = $db->executeQuery($sql);
         if (count($result) > 0) {
             $isExisted = true;
