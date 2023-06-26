@@ -68,6 +68,8 @@ $newUser = new User(
     $_SESSION['errorUserMessage'] = 'User already existed!';
  } else {
     $newUser->register($newUser);
+    unset($_SESSION['newUser']);
+    $_SESSION['errorUserMessage'] = '';
  }
 
  if ($isRedirect) {
