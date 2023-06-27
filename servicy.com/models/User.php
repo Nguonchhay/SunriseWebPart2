@@ -42,7 +42,7 @@ class User {
 
     public function searchByEmail($email) {
         $isExisted = false;
-        $db = new DatabaseService('localhost', 'root', 'root');
+        $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
         $db->openConnection();
 
         $sql = 'SELECT * FROM users WHERE email="' . $email . '" LIMIT 1;';
@@ -60,7 +60,7 @@ class User {
         $verifyLink = BASE_URL . "/admin/register-verify.php?hash=" > $hash;
         // Send link via email
 
-        $db = new DatabaseService('localhost', 'root', 'root');
+        $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
         $db->openConnection();
         $sql = "UPDATE users SET rememberToken='" . $hash . "' WHERE email='" . $this->email . "';";
         $result = $db->executeUpdate($sql);
@@ -68,7 +68,7 @@ class User {
     }
 
     public function register($user) {
-        $db = new DatabaseService('localhost', 'root', 'root');
+        $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
         $db->openConnection();
         $sql = "INSERT INTO `users` (`firstName`, `lastName`, `email`, `password`) VALUES ('" . $user->firstName . "', '" . $user->lastName . "', '" . $user->email . "', '" . $user->password . "');";
         $result = $db->executeUpdate($sql);

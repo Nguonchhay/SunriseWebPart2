@@ -1,4 +1,5 @@
 <?php
+    require_once __DIR__ . "/admin/constants.php";
     require_once "./partials/page.php";
     require_once "./models/Portfolio.php";
     require_once "./models/Service.php";
@@ -26,7 +27,7 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand" href="/sunrise-web2/servicy.com">
+                <a class="navbar-brand" href="<?=BASE_URL?>">
                     Service Easy
                 </a>
                 <?php echo renderMenu(); ?>

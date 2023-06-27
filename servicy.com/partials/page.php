@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . "/../admin/constants.php";
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -8,7 +10,7 @@ $menus = [
     [
         'key' => 'home',
         'label' => 'Home',
-        'link' => '/sunrise-web2/servicy.com'
+        'link' => BASE_URL
     ],
     [
         'key' => 'service',

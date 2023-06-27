@@ -1,7 +1,8 @@
 <?php
 
-require_once "./partials/page.php";
-require_once "./admin/services/DatabaseService.php";
+require_once __DIR__ . "/../admin/constants.php";
+require_once __DIR__ . "/../partials/page.php";
+require_once __DIR__ . "/../admin/services/DatabaseService.php";
 
 class Portfolio {
 
@@ -17,7 +18,7 @@ class Portfolio {
 
     public function getPortfolios() {
         $portfolios = [];
-        $db = new DatabaseService('localhost', 'root', 'root');
+        $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
         $db->openConnection();
         $sql = 'SELECT * FROM portfolios;';
         $result = $db->executeQuery($sql);
