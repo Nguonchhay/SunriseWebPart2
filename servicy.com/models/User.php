@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__ . "/../admin/constants.php";
 require_once __DIR__ . "/../admin/services/DatabaseService.php";
 
 class User {
@@ -10,6 +11,7 @@ class User {
     public $password;
     public $gender;
     public $isEmailVerified;
+    public $rememberToken;
 
 
     public function __construct(
@@ -18,7 +20,8 @@ class User {
         $id = 0,
         $firstName = '',
         $lastName = '',
-        $gender = ''
+        $gender = '',
+        $rememberToken = null
     ) {
         $this->id = $id;
         $this->firstName = $firstName;
@@ -31,6 +34,10 @@ class User {
 
     public function hashPassword($password) {
         return password_hash($password, PASSWORD_BCRYPT);
+    }
+
+    public function generateToken() {
+        return password_hash($this->email, PASSWORD_BCRYPT);
     }
 
     public function searchByEmail($email) {
@@ -46,6 +53,18 @@ class User {
         $db->closeConnection();
 
         return $isExisted;
+    }
+
+    public function sendVerifyLink() {
+        $hash = $this->generateToken();
+        $verifyLink = BASE_URL . "/admin/register-verify.php?hash=" > $hash;
+        // Send link via email
+
+        $db = new DatabaseService('localhost', 'root', 'root');
+        $db->openConnection();
+        $sql = "UPDATE users SET rememberToken='" . $hash . "' WHERE email='" . $this->email . "';";
+        $result = $db->executeUpdate($sql);
+        $db->closeConnection();
     }
 
     public function register($user) {

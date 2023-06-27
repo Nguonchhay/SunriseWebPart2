@@ -1,4 +1,7 @@
 <?php
+    require_once __DIR__ . "/constants.php";
+    require_once __DIR__ . "/services/DatabaseService.php";
+
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
@@ -19,14 +22,33 @@
     }
 
     $hash = $_GET['hash'];
-    $isSuccess = true;
+    $isSuccess = false;
     $_SESSION['isAuth'] = false;
+
+    $isExisted = false;
+    $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
+    $db->openConnection();
+
+    $sql = 'SELECT * FROM users WHERE rememberToken="' . $hash . '" LIMIT 1;';
+    $result = $db->executeQuery($sql);
+    if (count($result) > 0) {
+        $isSuccess = true;
+
+        // Mark email is verified
+        $sql = "UPDATE users SET rememberToken='" . time() . "', isEmailVerified=1 WHERE rememberToken='" . $hash . "';";
+        $result = $db->executeUpdate($sql);
+
+        // Auto login after success registration
+        $_SESSION['isAuth'] = true;
+    }
+    $db->closeConnection();
+
+
     $contentTitle = "Congratulation!!!";
     $contentDesc = "Great! you have complete your regiration. Go to home page to start your activity.";
-
-    // Auto login after success registration
-    if ($isSuccess) {
-        $_SESSION['isAuth'] = true;
+    if (!$isSuccess) {
+        $contentTitle = "Unknow hash";
+        $contentDesc = "Sorry! your verify link is invalid!.";
     }
 ?>
 
