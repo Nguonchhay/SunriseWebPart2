@@ -1,5 +1,11 @@
 <?php
 
+ini_set ('display_errors', 1);  
+ini_set ('display_startup_errors', 1);  
+error_reporting (E_ALL);  
+
+require_once __DIR__ . "/../../models/User.php";
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -29,11 +35,27 @@ if (empty($password)) {
     $_SESSION['errorPasswordMessage'] = '';
 }
 
+
+if (User::login($_SESSION['email'], $password,)) {
+    // Mark email is verified
+    $sql = "UPDATE users SET rememberToken='" . time() . "', WHERE email='" . $$queryUser->email . "';";
+    $result = $db->executeUpdate($sql);
+
+    // Auto login after success registration
+    $_SESSION['isAuth'] = true;
+
+    unset($_SESSION['email']);
+
+    header("Location: ../../index.php");
+    exit();
+} else {
+    $isRedirect = true;
+    $_SESSION['errorUserMessage'] = 'Invalid credentials!';
+}
+
 if ($isRedirect) {
     header("Location: ../login.php");
     exit();
 }
-
-var_dump($_POST);
 
 ?>

@@ -75,8 +75,20 @@ class User {
         $db->closeConnection();
     }
 
-    public function login($email, $password) {
+    public static function login($email, $password) {
+        $isExisted = false;
+        $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
+        $db->openConnection();
 
+        $sql = 'SELECT password FROM users WHERE isEmailVerified=1 AND email="' . $email . '" LIMIT 1;';
+        $result = $db->executeOneQuery($sql);
+        if (count($result) > 0) {
+            $dbPassword = $result[0];
+            $isExisted = password_verify($password, $dbPassword);
+        }
+        $db->closeConnection();
+
+        return $isExisted;
     }
 }
 

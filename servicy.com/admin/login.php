@@ -49,6 +49,14 @@ if (session_status() === PHP_SESSION_NONE) {
                                     </div>
                                     <form action="auth/login.php" method="POST" class="user">
                                         <div class="form-group">
+                                            <div class="col-sm-12 mb-12 mb-sm-0 text-center">
+                                                <p class="text-warning">
+                                                    <?php echo $_SESSION['errorUserMessage'] ?? '' ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
                                             <input type="email" class="form-control form-control-user" id="email" name="email" aria-describedby="emailHelp" placeholder="Email *" value="<?php echo $_SESSION['email'] ?? ''; ?>">
                                             <p>
                                                 <?php echo $_SESSION['errorEmailMessage'] ?? '' ?>

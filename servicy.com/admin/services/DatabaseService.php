@@ -35,6 +35,19 @@ class DatabaseService {
     /**
      * Function to execute SQL SELECT statement
      */
+    public function executeOneQuery($sql) {
+        $row = [];
+        if ($this->con) {
+            $result = $this->con->query($sql);
+            // Associative array
+            $row = $result->fetch_row();
+        }
+        return $row;
+    }
+
+        /**
+     * Function to execute SQL SELECT statement
+     */
     public function executeQuery($sql) {
         $rows = [];
         if ($this->con) {
