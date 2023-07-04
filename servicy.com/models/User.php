@@ -27,7 +27,7 @@ class User {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->email = $email;
-        $this->password = $this->hashPassword($password);
+        $this->password = trim($password);
         $this->gender = $gender;
         $this->isEmailVerified = false;
     }
@@ -68,9 +68,10 @@ class User {
     }
 
     public function register($user) {
+        $hashPassword = $this->hashPassword($user->password);
         $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
         $db->openConnection();
-        $sql = "INSERT INTO `users` (`firstName`, `lastName`, `email`, `password`) VALUES ('" . $user->firstName . "', '" . $user->lastName . "', '" . $user->email . "', '" . $user->password . "');";
+        $sql = "INSERT INTO `users` (`firstName`, `lastName`, `email`, `password`) VALUES ('" . $user->firstName . "', '" . $user->lastName . "', '" . $user->email . "', '" . $hashPassword . "');";
         $result = $db->executeUpdate($sql);
         $db->closeConnection();
     }
@@ -82,7 +83,7 @@ class User {
 
         $sql = 'SELECT password FROM users WHERE isEmailVerified=1 AND email="' . $email . '" LIMIT 1;';
         $result = $db->executeOneQuery($sql);
-        if (count($result) > 0) {
+        if (is_array($result) && count($result) > 0) {
             $dbPassword = $result[0];
             $isExisted = password_verify($password, $dbPassword);
         }

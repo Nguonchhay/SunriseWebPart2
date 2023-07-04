@@ -49,11 +49,9 @@ if (empty($password) || empty($repeatPassword)) {
     }
 }
 
-$_SESSION['newUser']['password'] = password_hash($password, PASSWORD_BCRYPT);
-
 $newUser = new User(
     $_SESSION['newUser']['email'],
-    $_SESSION['newUser']['password'],
+    $password,
     0, 
     $_SESSION['newUser']['firstName'], 
     $_SESSION['newUser']['lastName'],

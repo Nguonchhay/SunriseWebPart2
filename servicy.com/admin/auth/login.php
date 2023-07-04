@@ -5,6 +5,7 @@ ini_set ('display_startup_errors', 1);
 error_reporting (E_ALL);  
 
 require_once __DIR__ . "/../../models/User.php";
+require_once __DIR__ . "/../services/DatabaseService.php";
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -38,8 +39,11 @@ if (empty($password)) {
 
 if (User::login($_SESSION['email'], $password,)) {
     // Mark email is verified
-    $sql = "UPDATE users SET rememberToken='" . time() . "', WHERE email='" . $$queryUser->email . "';";
+    $sql = "UPDATE users SET rememberToken='" . time() . "' WHERE email='" . $_SESSION['email'] . "';";
+    $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
+    $db->openConnection();
     $result = $db->executeUpdate($sql);
+    $db->closeConnection();
 
     // Auto login after success registration
     $_SESSION['isAuth'] = true;
