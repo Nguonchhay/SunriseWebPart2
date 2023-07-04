@@ -62,6 +62,11 @@ $menus = [
         'hiddenAfterAuth' => false,
         'children' => [
             [
+                'key' => 'admin',
+                'label' => 'Admin Area',
+                'link' => 'admin/index.php'
+            ],
+            [
                 'key' => 'profile',
                 'label' => 'Profile',
                 'link' => '#'
