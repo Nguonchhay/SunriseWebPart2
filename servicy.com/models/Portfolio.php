@@ -68,6 +68,28 @@ class Portfolio {
         return BASE_URL . '/' . $this->imageUrl;
     }
 
+    public static function findById($id) {
+        $portfolio = null;
+        $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
+        $db->openConnection();
+        $sql = 'SELECT * FROM portfolios WHERE id=' . $id . ' LIMIT 1;';
+        $row = $db->executeOneQuery($sql);
+        
+        if (is_array($row) && count($row)) {
+            $portfolio = new Portfolio(
+                $row[0],
+                $row[1],
+                $row[2],
+                $row[3],
+                $row[4],
+                $row[5]
+            );
+        }
+        $db->closeConnection();
+
+        return $portfolio;
+    }
+
 }
 
 ?>

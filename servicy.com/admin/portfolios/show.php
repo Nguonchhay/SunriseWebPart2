@@ -1,8 +1,25 @@
 <?php
 
+ini_set ('display_errors', 1);  
+ini_set ('display_startup_errors', 1);  
+error_reporting (E_ALL); 
+
 require_once __DIR__ . '/../../models/Portfolio.php';
 
-$headerTitle = 'Portfolios';
+$headerTitle = 'Portfolio Detail';
+
+if (!isset($_GET['id'])) {
+    header("Location: /admin/portfolios/index.php");
+    exit();
+}
+
+$selectedId = intval($_GET['id']);
+$portfolio = Portfolio::findById($selectedId);
+
+if (empty($portfolio)) {
+    header("Location: /admin/portfolios/index.php");
+    exit();
+}
 
 ?>
 
@@ -226,51 +243,61 @@ $headerTitle = 'Portfolios';
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Portfolios</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Add New</a>
+                        <a href="/admin/portfolios/index.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                            <i class="fas fa-chevron-left fa-sm text-white-50"></i> Back
+                        </a>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
-                                                <th>Image</th>
-                                                <th>Title</th>
-                                                <th>Portfolio Type</th>
-                                                <th>Action</th>
+                                                <th width="220">Field</th>
+                                                <th>Value</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php
-                                                $portfolioObj = new Portfolio('', '', '', '', '', '');
-                                                $portfolios = $portfolioObj->getPortfolios();
-                                                foreach ($portfolios as $portfolio) {
-                                                    echo '
-                                                        <tr>
-                                                            <td>' . $portfolio->id . '</td>
-                                                            <td> <img src="' . $portfolio->getFullImagePath() . '" width="100" /></td>
-                                                            <td>' . $portfolio->title . '</td>
-                                                            <td>' . $portfolio->portfolioType . '</td>
-                                                            <td>
-                                                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                                    <a href="/admin/portfolios/show.php?id=' . $portfolio->id . '" class="btn btn-info">Show</a>
-                                                                    <button type="button" class="btn btn-info">Edit</button>
-                                                                    <button type="button" class="btn btn-danger">Delete</button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    ';
-                                                }
-                                            ?>
-                                            
+                                            <tr>
+                                                <td>ID</td>
+                                                <td>
+                                                    <?php echo $portfolio->id; ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Image</td>
+                                                <td>
+                                                    <img src="<?php echo $portfolio->getFullImagePath(); ?>" width="100" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Title</td>
+                                                <td>
+                                                    <?php echo $portfolio->title; ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Portfolio Type</td>
+                                                <td>
+                                                    <?php echo $portfolio->portfolioType; ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Short Description</td>
+                                                <td>
+                                                    <p><?php echo $portfolio->shortDesc; ?></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>description</td>
+                                                <td>
+                                                    <p><?php echo $portfolio->desc; ?></p>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
-                                </div>
                                 </div>
                             </div>
 
