@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../../models/Portfolio.php';
+
 $headerTitle = 'Portfolios';
 
 ?>
@@ -244,15 +246,28 @@ $headerTitle = 'Portfolios';
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>System Architect</td>
-                                                <td>Edinburgh</td>
-                                                <td>61</td>
-                                                <td>
-                                                    Show | Edit | Delete
-                                                </td>
-                                            </tr>
+                                            <?php
+                                                $portfolioObj = new Portfolio('', '', '', '', '', '');
+                                                $portfolios = $portfolioObj->getPortfolios();
+                                                foreach ($portfolios as $portfolio) {
+                                                    echo '
+                                                        <tr>
+                                                            <td>' . $portfolio->id . '</td>
+                                                            <td> <img src="' . $portfolio->getFullImagePath() . '" width="100" /></td>
+                                                            <td>' . $portfolio->title . '</td>
+                                                            <td>' . $portfolio->portfolioType . '</td>
+                                                            <td>
+                                                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                                    <button type="button" class="btn btn-info">Show</button>
+                                                                    <button type="button" class="btn btn-info">Edit</button>
+                                                                    <button type="button" class="btn btn-danger">Delete</button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    ';
+                                                }
+                                            ?>
+                                            
                                         </tbody>
                                     </table>
                                 </div>

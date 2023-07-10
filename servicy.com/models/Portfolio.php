@@ -64,6 +64,10 @@ class Portfolio {
         return $htmlContent;
     }
 
+    public function getFullImagePath() {
+        return BASE_URL . '/' . $this->imageUrl;
+    }
+
 }
 
 ?>
