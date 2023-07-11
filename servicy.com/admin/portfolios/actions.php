@@ -15,6 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $result = Portfolio::deleteById($id);
             break;
         case 'store':
+            var_dump($_POST);
+            die('---');
             break;
         case 'update':
             break;
