@@ -234,46 +234,59 @@ $headerTitle = 'Portfolios';
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Image</th>
-                                                <th>Title</th>
-                                                <th>Portfolio Type</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                                $portfolioObj = new Portfolio('', '', '', '', '', '');
-                                                $portfolios = $portfolioObj->getPortfolios();
-                                                foreach ($portfolios as $portfolio) {
-                                                    echo '
-                                                        <tr>
-                                                            <td>' . $portfolio->id . '</td>
-                                                            <td> <img src="' . $portfolio->getFullImagePath() . '" width="100" /></td>
-                                                            <td>' . $portfolio->title . '</td>
-                                                            <td>' . $portfolio->portfolioType . '</td>
-                                                            <td>
-                                                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                                    <a href="/admin/portfolios/show.php?id=' . $portfolio->id . '" class="btn btn-info">Show</a>
-                                                                    <button type="button" class="btn btn-info">Edit</button>
-                                                                    <button type="button" class="btn btn-danger">Delete</button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    ';
-                                                }
-                                            ?>
-                                            
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Image</th>
+                                                    <th>Title</th>
+                                                    <th>Portfolio Type</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                    $portfolioObj = new Portfolio('', '', '', '', '', '');
+                                                    $portfolios = $portfolioObj->getPortfolios();
+                                                    foreach ($portfolios as $portfolio) {
+                                                        echo '
+                                                            <tr>
+                                                                <td>' . $portfolio->id . '</td>
+                                                                <td> <img src="' . $portfolio->getFullImagePath() . '" width="100" /></td>
+                                                                <td>' . $portfolio->title . '</td>
+                                                                <td>' . $portfolio->portfolioType . '</td>
+                                                                <td>
+                                                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                                        <a href="/admin/portfolios/show.php?id=' . $portfolio->id . '" class="btn btn-info">Show</a>
+                                                                        <button type="button" class="btn btn-info">Edit</button>
+                                                                        <button onclick="deleteItem(' . $portfolio->id . ')" type="button" class="btn btn-danger">Delete</button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        ';
+                                                    }
+                                                ?>
+                                                
+                                            </tbody>
+                                        </table>
+                                        <div class="d-none">
+                                            <form action="/admin/portfolios/actions.php" method="POST" id="frmPortfolioRemove">
+                                                <input type="hidden" name="from" value="delete" />
+                                                <input type="hidden" id="selectedId" name="id" value="" />
+                                                <script>
+                                                    function deleteItem(id) {
+                                                        if (confirm("Are you sure?")) {
+                                                            document.getElementById('selectedId').value = id;
+                                                            document.getElementById('frmPortfolioRemove').submit();
+                                                        }
+                                                    }
+                                                </script>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
 

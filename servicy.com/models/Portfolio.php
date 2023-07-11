@@ -90,6 +90,17 @@ class Portfolio {
         return $portfolio;
     }
 
+    public static function deleteById($id) {
+        $result = 0;
+        $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
+        $db->openConnection();
+        $sql = 'DELETE FROM portfolios WHERE id=' . $id;
+        $result = $db->executeUpdate($sql);
+        $db->closeConnection();
+
+        return $result;
+    }
+
 }
 
 ?>
