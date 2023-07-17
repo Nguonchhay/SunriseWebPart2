@@ -248,16 +248,16 @@ $headerTitle = 'New Portfolio';
                                         </div>
                                         
                                         <div class="mb-3 row">
-                                            <label for="title" class="col-sm-2 col-form-label">Title</label>
+                                            <label for="title" class="col-sm-2 col-form-label">Title *</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="title" name="title">
+                                                <input type="text" class="form-control" id="title" name="title" required>
                                             </div>
                                         </div>
 
                                         <div class="mb-3 row">
-                                            <label for="portfolioType" class="col-sm-2 col-form-label">Portfolio Type</label>
+                                            <label for="portfolioType" class="col-sm-2 col-form-label">Portfolio Type *</label>
                                             <div class="col-sm-10">
-                                                <select id="portfolioType" name="portfolioType" class="form-select form-select-sm" aria-label=".form-select-sm">
+                                                <select id="portfolioType" name="portfolioType" class="form-control form-select form-select-sm" aria-label=".form-select-sm" required>
                                                     <option selected>Select Portfolio Type</option>
                                                     <option value="Design">Design</option>
                                                     <option value="Mobile">Mobile</option>
@@ -281,9 +281,9 @@ $headerTitle = 'New Portfolio';
                                         </div>
 
                                         <div class="mb-3 row">
-                                            <label for="title" class="col-sm-2 col-form-label">Image</label>
+                                            <label for="title" class="col-sm-2 col-form-label">Image *</label>
                                             <div class="col-sm-10">
-                                                <input type="file" class="form-control" id="image" name="image">
+                                                <input type="file" class="form-control" id="image" name="image" required accept="image/png, image/gif, image/jpeg, image/webp, image/svg">
                                             </div>
                                         </div>
 

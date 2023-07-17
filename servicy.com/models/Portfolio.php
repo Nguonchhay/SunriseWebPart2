@@ -90,6 +90,14 @@ class Portfolio {
         return $portfolio;
     }
 
+    public function save() {
+        $sql = 'INSERT INTO portfolios(`imageUrl`, `title`, `portfolioType`, `shortDesc`, `desc`) VALUES("' . $this->imageUrl . '", "' . $this->title . '", "' . $this->portfolioType . '", "' . $this->shortDesc . '", "' . $this->desc . '");';
+        $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
+        $db->openConnection();
+        $result = $db->executeUpdate($sql);
+        $db->closeConnection();
+    }
+
     public static function deleteById($id) {
         $result = 0;
         $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
