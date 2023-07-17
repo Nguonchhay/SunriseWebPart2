@@ -4,6 +4,8 @@ ini_set ('display_errors', 1);
 ini_set ('display_startup_errors', 1);  
 error_reporting (E_ALL); 
 
+require_once __DIR__ . "/../constants.php";
+
 $headerTitle = 'New Portfolio';
 
 ?>
@@ -237,7 +239,7 @@ $headerTitle = 'New Portfolio';
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                    <form action="/admin/portfolios/actions.php" method="POST" enctype="multipart/form-data">
+                                    <form action="<?=BASE_URL?>/admin/portfolios/actions.php" method="POST" enctype="multipart/form-data">
                                         <input type="hidden" name="from" value="store" />
                                         
                                         <div class="mb-3 row">

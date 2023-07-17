@@ -258,7 +258,7 @@ $headerTitle = 'Portfolios';
                                                                 <td>' . $portfolio->portfolioType . '</td>
                                                                 <td>
                                                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                                        <a href="/admin/portfolios/show.php?id=' . $portfolio->id . '" class="btn btn-info">Show</a>
+                                                                        <a href="' . BASE_URL . '/admin/portfolios/show.php?id=' . $portfolio->id . '" class="btn btn-info">Show</a>
                                                                         <button type="button" class="btn btn-info">Edit</button>
                                                                         <button onclick="deleteItem(' . $portfolio->id . ')" type="button" class="btn btn-danger">Delete</button>
                                                                     </div>
