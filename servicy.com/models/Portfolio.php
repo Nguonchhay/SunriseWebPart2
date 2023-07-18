@@ -8,9 +8,9 @@ class Portfolio {
 
     public function __construct(
         public $id = 0,
-        public $imageUrl,
-        public $title,
-        public $portfolioType,
+        public $imageUrl = '',
+        public $title = '',
+        public $portfolioType = '',
         public $shortDesc = '',
         public $desc = ''
     ) {}
@@ -92,6 +92,14 @@ class Portfolio {
 
     public function save() {
         $sql = 'INSERT INTO portfolios(`imageUrl`, `title`, `portfolioType`, `shortDesc`, `desc`) VALUES("' . $this->imageUrl . '", "' . $this->title . '", "' . $this->portfolioType . '", "' . $this->shortDesc . '", "' . $this->desc . '");';
+        $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
+        $db->openConnection();
+        $result = $db->executeUpdate($sql);
+        $db->closeConnection();
+    }
+
+    public function update() {
+        $sql = 'UPDATE portfolios SET `imageUrl`="' . $this->imageUrl . '", `title`="' . $this->title . '", `portfolioType`="' . $this->portfolioType . '", `shortDesc`="' . $this->shortDesc . '", `desc`="' . $this->desc . '" WHERE id=' . $this->id;
         $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
         $db->openConnection();
         $result = $db->executeUpdate($sql);

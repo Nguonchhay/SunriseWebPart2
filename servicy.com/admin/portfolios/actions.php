@@ -24,13 +24,13 @@ function uploadImage($file) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $from = $_POST['from'];
 
-    $createUrl = getFullUrl('admin/portfolios/create.php');
     switch ($from) {
         case 'delete':
             $id = intval($_POST['id']);
             $result = Portfolio::deleteById($id);
             break;
         case 'store':
+            $createUrl = getFullUrl('admin/portfolios/create.php');
             $title = $_POST['title'];
             $portfolioType = $_POST['portfolioType'];
             $shortDesc = $_POST['shortDesc'];
@@ -60,9 +60,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             break;
         case 'update':
-            var_dump($_POST);
-            var_dump($_FILES['image']);
-            die('---');
+            $id = intval($_POST['id']);
+            $editUrl = getFullUrl('admin/portfolios/edit.php?id=' . $id);
+            $title = $_POST['title'];
+            $portfolioType = $_POST['portfolioType'];
+            $shortDesc = $_POST['shortDesc'];
+            $desc = $_POST['desc'];
+            $image = $_FILES['image'];
+
+            if (empty($id) || empty($title) || empty($portfolioType) || empty($image)) {
+                header("Location: " . $editUrl);
+                exit();
+            }
+
+            $imagePath = $_POST['existingImage'];
+            if (!empty($image['tmp_name']) && $image['size'] > 0) {
+                $imagePath = uploadImage($image);
+                if ($imagePath === '') {
+                    header("Location: " . $createUrl);
+                    exit();
+                }
+            }
+
+            $portfolio = new Portfolio(
+                $id,
+                $imagePath,
+                $title,
+                $portfolioType,
+                $shortDesc,
+                $desc
+            );
+            $portfolio->update();
+
             break;
     }
 }

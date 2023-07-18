@@ -260,6 +260,7 @@ if (empty($portfolio)) {
                                         <div class="mb-3 row">
                                             <label for="id" class="col-sm-2 col-form-label">ID</label>
                                             <div class="col-sm-10">
+                                                <input type="hidden" name="id" value="<?=$portfolio->id?>" />
                                                 <input type="text" readonly class="form-control-plaintext" id="id" value="<?=$portfolio->id?>">
                                             </div>
                                         </div>
@@ -300,6 +301,7 @@ if (empty($portfolio)) {
                                         <div class="mb-3 row">
                                             <label for="title" class="col-sm-2 col-form-label">Image</label>
                                             <div class="col-sm-10">
+                                                <input type="hidden" name="existingImage" value="<?=$portfolio->imageUrl?>" />
                                                 <img src="<?=$portfolio->getFullImagePath()?>" width="100" />
                                                 <p>Do not upload image if you do not want to change.</p>
                                                 <input type="file" class="form-control" id="image" name="image" accept="image/png, image/gif, image/jpeg, image/webp, image/svg">
