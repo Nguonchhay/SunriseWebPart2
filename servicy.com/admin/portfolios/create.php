@@ -230,7 +230,7 @@ $headerTitle = 'New Portfolio';
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">New Portfolio</h1>
-                        <a href="/admin/portfolios/index.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                        <a href="<?=getFullUrl('admin/portfolios/index.php')?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                             <i class="fas fa-chevron-left fa-sm text-white-50"></i> Back
                         </a>
                     </div>
@@ -239,7 +239,7 @@ $headerTitle = 'New Portfolio';
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                    <form action="<?=BASE_URL?>/admin/portfolios/actions.php" method="POST" enctype="multipart/form-data">
+                                    <form action="<?=getFullUrl('dmin/portfolios/actions.php')?>" method="POST" enctype="multipart/form-data">
                                         <input type="hidden" name="from" value="store" />
                                         
                                         <div class="mb-3 row">

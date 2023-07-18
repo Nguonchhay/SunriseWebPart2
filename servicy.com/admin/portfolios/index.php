@@ -226,7 +226,7 @@ $headerTitle = 'Portfolios';
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Portfolios</h1>
-                        <a href="<?=BASE_URL?>/admin/portfolios/create.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        <a href="<?=getFullUrl('admin/portfolios/create.php')?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-plus fa-sm text-white-50"></i> Add New</a>
                     </div>
 
@@ -258,7 +258,7 @@ $headerTitle = 'Portfolios';
                                                                 <td>' . $portfolio->portfolioType . '</td>
                                                                 <td>
                                                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                                        <a href="' . BASE_URL . '/admin/portfolios/show.php?id=' . $portfolio->id . '" class="btn btn-info">Show</a>
+                                                                        <a href="' . getFullUrl('admin/portfolios/show.php?id=' . $portfolio->id) . '" class="btn btn-info">Show</a>
                                                                         <button type="button" class="btn btn-info">Edit</button>
                                                                         <button onclick="deleteItem(' . $portfolio->id . ')" type="button" class="btn btn-danger">Delete</button>
                                                                     </div>
@@ -271,7 +271,7 @@ $headerTitle = 'Portfolios';
                                             </tbody>
                                         </table>
                                         <div class="d-none">
-                                            <form action="/admin/portfolios/actions.php" method="POST" id="frmPortfolioRemove">
+                                            <form action="<?=getFullUrl('admin/portfolios/actions.php')?>" method="POST" id="frmPortfolioRemove">
                                                 <input type="hidden" name="from" value="delete" />
                                                 <input type="hidden" id="selectedId" name="id" value="" />
                                                 <script>

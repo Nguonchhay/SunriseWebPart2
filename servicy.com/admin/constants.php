@@ -6,4 +6,8 @@ define("DB_USER", "root");
 define("DB_PASSWORD", "root");
 define("PORTFOLIO_UPLOAD_DIR", "uploads/portfolios");
 
+function getFullUrl($uri) {
+    return BASE_URL . '/' . $uri;
+}
+
 ?>

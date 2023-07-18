@@ -24,6 +24,7 @@ function uploadImage($file) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $from = $_POST['from'];
 
+    $createUrl = getFullUrl('admin/portfolios/create.php');
     switch ($from) {
         case 'delete':
             $id = intval($_POST['id']);
@@ -37,13 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $image = $_FILES['image'];
 
             if (empty($title) || empty($portfolioType) || empty($image)) {
-                header("Location: /admin/portfolios/create.php");
+                header("Location: " . $createUrl);
                 exit();
             }
 
             $imagePath = uploadImage($image);
             if ($imagePath === '') {
-                header("Location: /admin/portfolios/create.php");
+                header("Location: " . $createUrl);
                 exit();
             }
 
@@ -63,7 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-header("Location: /admin/portfolios/index.php");
+$url = getFullUrl('admin/portfolios/index.php');
+header("Location: " . $url);
 exit();
 
 ?>
