@@ -239,7 +239,7 @@ $headerTitle = 'New Portfolio';
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                    <form action="<?=getFullUrl('dmin/portfolios/actions.php')?>" method="POST" enctype="multipart/form-data">
+                                    <form action="<?=getFullUrl('admin/portfolios/actions.php')?>" method="POST" enctype="multipart/form-data">
                                         <input type="hidden" name="from" value="store" />
                                         
                                         <div class="mb-3 row">
