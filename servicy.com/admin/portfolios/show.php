@@ -8,8 +8,9 @@ require_once __DIR__ . '/../../models/Portfolio.php';
 
 $headerTitle = 'Portfolio Detail';
 
+$url = getFullUrl('admin/portfolios/index.php');
 if (!isset($_GET['id'])) {
-    header("Location: /admin/portfolios/index.php");
+    header("Location: " . $url);
     exit();
 }
 
@@ -17,7 +18,7 @@ $selectedId = intval($_GET['id']);
 $portfolio = Portfolio::findById($selectedId);
 
 if (empty($portfolio)) {
-    header("Location: /admin/portfolios/index.php");
+    header("Location: " . $url);
     exit();
 }
 

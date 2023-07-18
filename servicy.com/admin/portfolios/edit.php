@@ -1,8 +1,27 @@
 <?php
 
+ini_set ('display_errors', 1);  
+ini_set ('display_startup_errors', 1);  
+error_reporting (E_ALL); 
+
+require_once __DIR__ . "/../constants.php";
 require_once __DIR__ . '/../../models/Portfolio.php';
 
-$headerTitle = 'Portfolios';
+$headerTitle = 'Edit Portfolio';
+
+$url = getFullUrl('admin/portfolios/index.php');
+if (!isset($_GET['id'])) {
+    header("Location: " . $url);
+    exit();
+}
+
+$selectedId = intval($_GET['id']);
+$portfolio = Portfolio::findById($selectedId);
+
+if (empty($portfolio)) {
+    header("Location: " . $url);
+    exit();
+}
 
 ?>
 
@@ -225,68 +244,77 @@ $headerTitle = 'Portfolios';
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Portfolios</h1>
-                        <a href="<?=getFullUrl('admin/portfolios/create.php')?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-plus fa-sm text-white-50"></i> Add New</a>
+                        <h1 class="h3 mb-0 text-gray-800">Edit Portfolio</h1>
+                        <a href="<?=getFullUrl('admin/portfolios/index.php')?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                            <i class="fas fa-chevron-left fa-sm text-white-50"></i> Back
+                        </a>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Image</th>
-                                                    <th>Title</th>
-                                                    <th>Portfolio Type</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                    $portfolioObj = new Portfolio('', '', '', '', '', '');
-                                                    $portfolios = $portfolioObj->getPortfolios();
-                                                    foreach ($portfolios as $portfolio) {
-                                                        echo '
-                                                            <tr>
-                                                                <td>' . $portfolio->id . '</td>
-                                                                <td> <img src="' . $portfolio->getFullImagePath() . '" width="100" /></td>
-                                                                <td>' . $portfolio->title . '</td>
-                                                                <td>' . $portfolio->portfolioType . '</td>
-                                                                <td>
-                                                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                                        <a href="' . getFullUrl('admin/portfolios/show.php?id=' . $portfolio->id) . '" class="btn btn-info">Show</a>
-                                                                        <a href="' . getFullUrl('admin/portfolios/edit.php?id=' . $portfolio->id) . '" class="btn btn-info">Edit</a>
-                                                                        <button onclick="deleteItem(' . $portfolio->id . ')" type="button" class="btn btn-danger">Delete</button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        ';
-                                                    }
-                                                ?>
-                                                
-                                            </tbody>
-                                        </table>
-                                        <div class="d-none">
-                                            <form action="<?=getFullUrl('admin/portfolios/actions.php')?>" method="POST" id="frmPortfolioRemove">
-                                                <input type="hidden" name="from" value="delete" />
-                                                <input type="hidden" id="selectedId" name="id" value="" />
-                                                <script>
-                                                    function deleteItem(id) {
-                                                        if (confirm("Are you sure?")) {
-                                                            document.getElementById('selectedId').value = id;
-                                                            document.getElementById('frmPortfolioRemove').submit();
-                                                        }
-                                                    }
-                                                </script>
-                                            </form>
+                                    <form action="<?=getFullUrl('admin/portfolios/actions.php')?>" method="POST" enctype="multipart/form-data">
+                                        <input type="hidden" name="from" value="update" />
+                                        
+                                        <div class="mb-3 row">
+                                            <label for="id" class="col-sm-2 col-form-label">ID</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" readonly class="form-control-plaintext" id="id" value="<?=$portfolio->id?>">
+                                            </div>
                                         </div>
-                                    </div>
+                                        
+                                        <div class="mb-3 row">
+                                            <label for="title" class="col-sm-2 col-form-label">Title *</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="title" name="title" required value="<?=$portfolio->title?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label for="portfolioType" class="col-sm-2 col-form-label">Portfolio Type *</label>
+                                            <div class="col-sm-10">
+                                                <select id="portfolioType" name="portfolioType" class="form-control form-select form-select-sm" aria-label=".form-select-sm" required>
+                                                    <option>Select Portfolio Type</option>
+                                                    <option value="Design" <?php echo $portfolio->portfolioType === 'Design' ? 'selected' : '' ?> >Design</option>
+                                                    <option value="Mobile" <?php echo $portfolio->portfolioType === 'Mobile' ? 'selected' : '' ?> >Mobile</option>
+                                                    <option value="Web" <?php echo $portfolio->portfolioType === 'Web' ? 'selected' : '' ?> >Web</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label for="shortDesc" class="col-sm-2 col-form-label">Short Description</label>
+                                            <div class="col-sm-10">
+                                            <textarea rows="3" class="form-control" id="shortDesc" name="shortDesc"><?=$portfolio->shortDesc?></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label for="desc" class="col-sm-2 col-form-label">Description</label>
+                                            <div class="col-sm-10">
+                                                <textarea rows="5" class="form-control" id="desc" name="desc"><?=$portfolio->desc?></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label for="title" class="col-sm-2 col-form-label">Image</label>
+                                            <div class="col-sm-10">
+                                                <img src="<?=$portfolio->getFullImagePath()?>" width="100" />
+                                                <p>Do not upload image if you do not want to change.</p>
+                                                <input type="file" class="form-control" id="image" name="image" accept="image/png, image/gif, image/jpeg, image/webp, image/svg">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <div class="col-sm-12 d-flex justify-content-center">
+                                                <button type="submit" class="btn btn-primary">Update</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
+
                         </div>
                     </div>
 

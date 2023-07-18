@@ -60,6 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             break;
         case 'update':
+            var_dump($_POST);
+            var_dump($_FILES['image']);
+            die('---');
             break;
     }
 }
