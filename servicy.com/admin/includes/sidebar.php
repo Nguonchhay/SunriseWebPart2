@@ -1,3 +1,9 @@
+<?php
+
+require_once __DIR__ . "/../constants.php";
+
+?>
+
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -17,9 +23,14 @@
             <span>Dashboard</span></a>
     </li>
 
-    <!-- Nav Item - Charts -->
     <li class="nav-item">
-        <a class="nav-link" href="portfolios/index.php">
+        <a class="nav-link" href="<?=getFullUrl('admin/portfolio_types/index.php')?>">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Portfolio Types</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="<?=getFullUrl('admin/portfolios/index.php')?>">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Portfolios</span></a>
     </li>
