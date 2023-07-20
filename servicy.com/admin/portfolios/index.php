@@ -255,7 +255,7 @@ $headerTitle = 'Portfolios';
                                                                 <td>' . $portfolio->id . '</td>
                                                                 <td> <img src="' . $portfolio->getFullImagePath() . '" width="100" /></td>
                                                                 <td>' . $portfolio->title . '</td>
-                                                                <td>' . $portfolio->portfolioType . '</td>
+                                                                <td>' . $portfolio->portfolioType->title . '</td>
                                                                 <td>
                                                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                                                         <a href="' . getFullUrl('admin/portfolios/show.php?id=' . $portfolio->id) . '" class="btn btn-info">Show</a>

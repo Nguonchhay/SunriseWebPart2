@@ -5,6 +5,7 @@ ini_set ('display_startup_errors', 1);
 error_reporting (E_ALL); 
 
 require_once __DIR__ . "/../constants.php";
+require_once __DIR__ . "/../../models/PortfolioType.php";
 
 $headerTitle = 'New Portfolio';
 
@@ -259,11 +260,13 @@ $headerTitle = 'New Portfolio';
                                         <div class="mb-3 row">
                                             <label for="portfolioType" class="col-sm-2 col-form-label">Portfolio Type *</label>
                                             <div class="col-sm-10">
-                                                <select id="portfolioType" name="portfolioType" class="form-control form-select form-select-sm" aria-label=".form-select-sm" required>
+                                                <select id="portfolioType" name="portfolio_type_id" class="form-control form-select form-select-sm" aria-label=".form-select-sm" required>
                                                     <option selected>Select Portfolio Type</option>
-                                                    <option value="Design">Design</option>
-                                                    <option value="Mobile">Mobile</option>
-                                                    <option value="Web">Web</option>
+                                                    <?php
+                                                        foreach (PortfolioType::getPortfolioTypes() as $item) {
+                                                            echo '<option value="' . $item->id . '">' . $item->title . '</option>';
+                                                        }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>

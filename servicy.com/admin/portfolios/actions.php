@@ -32,12 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         case 'store':
             $createUrl = getFullUrl('admin/portfolios/create.php');
             $title = $_POST['title'];
-            $portfolioType = $_POST['portfolioType'];
+            $portfolioTypeId = $_POST['portfolio_type_id'];
             $shortDesc = $_POST['shortDesc'];
             $desc = $_POST['desc'];
             $image = $_FILES['image'];
 
-            if (empty($title) || empty($portfolioType) || empty($image)) {
+            if (empty($title) || empty($portfolioTypeId) || empty($image)) {
                 header("Location: " . $createUrl);
                 exit();
             }
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 0,
                 $imagePath,
                 $title,
-                $portfolioType,
+                $portfolioTypeId,
                 $shortDesc,
                 $desc
             );
@@ -63,12 +63,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = intval($_POST['id']);
             $editUrl = getFullUrl('admin/portfolios/edit.php?id=' . $id);
             $title = $_POST['title'];
-            $portfolioType = $_POST['portfolioType'];
+            $portfolioTypeId = $_POST['portfolio_type_id'];
             $shortDesc = $_POST['shortDesc'];
             $desc = $_POST['desc'];
             $image = $_FILES['image'];
 
-            if (empty($id) || empty($title) || empty($portfolioType) || empty($image)) {
+            if (empty($id) || empty($title) || empty($portfolioTypeId) || empty($image)) {
                 header("Location: " . $editUrl);
                 exit();
             }
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $id,
                 $imagePath,
                 $title,
-                $portfolioType,
+                $portfolioTypeId,
                 $shortDesc,
                 $desc
             );

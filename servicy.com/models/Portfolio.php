@@ -2,6 +2,7 @@
 
 require_once __DIR__ . "/../admin/constants.php";
 require_once __DIR__ . "/../partials/page.php";
+require_once __DIR__ . "/PortfolioType.php";
 require_once __DIR__ . "/../admin/services/DatabaseService.php";
 
 class Portfolio {
@@ -10,7 +11,7 @@ class Portfolio {
         public $id = 0,
         public $imageUrl = '',
         public $title = '',
-        public $portfolioType = '',
+        public $portfolioType = null,
         public $shortDesc = '',
         public $desc = ''
     ) {}
@@ -20,20 +21,23 @@ class Portfolio {
         $portfolios = [];
         $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
         $db->openConnection();
-        $sql = 'SELECT * FROM portfolios;';
+        $sql = '
+                SELECT portfolios.id, portfolios.imageUrl, portfolios.title, portfolio_types.id AS portfolioTypeId, portfolio_types.title AS portfolioTypeTitle, portfolios.shortDesc, portfolios.desc 
+                FROM portfolios INNER JOIN portfolio_types ON portfolios.portfolio_type_id = portfolio_types.id;
+        ';
+
         $result = $db->executeQuery($sql);
         foreach ($result as $row) {
             $portfolios[] = new Portfolio(
                 $row['id'],
                 $row['imageUrl'],
                 $row['title'],
-                $row['portfolioType'],
+                new PortfolioType($row['portfolioTypeTitle'], $row['portfolioTypeId']),
                 $row['shortDesc'],
                 $row['desc']
             );
         }
         $db->closeConnection();
-
         return $portfolios;
     }
 
@@ -51,7 +55,7 @@ class Portfolio {
                         </a>
                         <div class="portfolio-caption">
                             <div class="portfolio-caption-heading">' . $portfolio->title . '</div>
-                            <div class="portfolio-caption-subheading text-muted">' . $portfolio->portfolioType . '</div>
+                            <div class="portfolio-caption-subheading text-muted">' . $portfolio->portfolioTypeId . '</div>
                         </div>
                     </div>
 
@@ -91,7 +95,7 @@ class Portfolio {
     }
 
     public function save() {
-        $sql = 'INSERT INTO portfolios(`imageUrl`, `title`, `portfolioType`, `shortDesc`, `desc`) VALUES("' . $this->imageUrl . '", "' . $this->title . '", "' . $this->portfolioType . '", "' . $this->shortDesc . '", "' . $this->desc . '");';
+        $sql = 'INSERT INTO portfolios(`imageUrl`, `title`, `portfolio_type_id`, `shortDesc`, `desc`) VALUES("' . $this->imageUrl . '", "' . $this->title . '", "' . $this->portfolioTypeId . '", "' . $this->shortDesc . '", "' . $this->desc . '");';
         $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
         $db->openConnection();
         $result = $db->executeUpdate($sql);
@@ -99,7 +103,7 @@ class Portfolio {
     }
 
     public function update() {
-        $sql = 'UPDATE portfolios SET `imageUrl`="' . $this->imageUrl . '", `title`="' . $this->title . '", `portfolioType`="' . $this->portfolioType . '", `shortDesc`="' . $this->shortDesc . '", `desc`="' . $this->desc . '" WHERE id=' . $this->id;
+        $sql = 'UPDATE portfolios SET `imageUrl`="' . $this->imageUrl . '", `title`="' . $this->title . '", `portfolio_type_id`="' . $this->portfolioTypeId . '", `shortDesc`="' . $this->shortDesc . '", `desc`="' . $this->desc . '" WHERE id=' . $this->id;
         $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
         $db->openConnection();
         $result = $db->executeUpdate($sql);

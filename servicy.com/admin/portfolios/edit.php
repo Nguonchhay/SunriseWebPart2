@@ -6,6 +6,7 @@ error_reporting (E_ALL);
 
 require_once __DIR__ . "/../constants.php";
 require_once __DIR__ . '/../../models/Portfolio.php';
+require_once __DIR__ . "/../../models/PortfolioType.php";
 
 $headerTitle = 'Edit Portfolio';
 
@@ -275,11 +276,13 @@ if (empty($portfolio)) {
                                         <div class="mb-3 row">
                                             <label for="portfolioType" class="col-sm-2 col-form-label">Portfolio Type *</label>
                                             <div class="col-sm-10">
-                                                <select id="portfolioType" name="portfolioType" class="form-control form-select form-select-sm" aria-label=".form-select-sm" required>
+                                                <select id="portfolioType" name="portfolio_type_id" class="form-control form-select form-select-sm" aria-label=".form-select-sm" required>
                                                     <option>Select Portfolio Type</option>
-                                                    <option value="Design" <?php echo $portfolio->portfolioType === 'Design' ? 'selected' : '' ?> >Design</option>
-                                                    <option value="Mobile" <?php echo $portfolio->portfolioType === 'Mobile' ? 'selected' : '' ?> >Mobile</option>
-                                                    <option value="Web" <?php echo $portfolio->portfolioType === 'Web' ? 'selected' : '' ?> >Web</option>
+                                                    <?php
+                                                        foreach (PortfolioType::getPortfolioTypes() as $item) {
+                                                            echo '<option ' . ($portfolio->portfolioTypeId === $item->id ? 'selected' : '') . ' value="' . $item->id . '">' . $item->title . '</option>';
+                                                        }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
