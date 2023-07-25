@@ -282,7 +282,7 @@ if (empty($portfolio)) {
                                             <tr>
                                                 <td>Portfolio Type</td>
                                                 <td>
-                                                    <?php echo $portfolio->portfolioType; ?>
+                                                    <?php echo $portfolio->portfolioType->title; ?>
                                                 </td>
                                             </tr>
                                             <tr>

@@ -76,7 +76,11 @@ class Portfolio {
         $portfolio = null;
         $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
         $db->openConnection();
-        $sql = 'SELECT * FROM portfolios WHERE id=' . $id . ' LIMIT 1;';
+        $sql = '
+                SELECT portfolios.id, portfolios.imageUrl, portfolios.title, portfolio_types.id AS portfolioTypeId, portfolio_types.title AS portfolioTypeTitle, portfolios.shortDesc, portfolios.desc 
+                FROM portfolios INNER JOIN portfolio_types ON portfolios.portfolio_type_id = portfolio_types.id
+                WHERE portfolios.id = ' . $id . ' LIMIT 1;
+        ';
         $row = $db->executeOneQuery($sql);
         
         if (is_array($row) && count($row)) {
@@ -84,9 +88,9 @@ class Portfolio {
                 $row[0],
                 $row[1],
                 $row[2],
-                $row[3],
-                $row[4],
-                $row[5]
+                new PortfolioType($row[4], $row[3]),
+                $row[5],
+                $row[6]
             );
         }
         $db->closeConnection();
@@ -103,7 +107,7 @@ class Portfolio {
     }
 
     public function update() {
-        $sql = 'UPDATE portfolios SET `imageUrl`="' . $this->imageUrl . '", `title`="' . $this->title . '", `portfolio_type_id`="' . $this->portfolioTypeId . '", `shortDesc`="' . $this->shortDesc . '", `desc`="' . $this->desc . '" WHERE id=' . $this->id;
+        $sql = 'UPDATE portfolios SET `imageUrl`="' . $this->imageUrl . '", `title`="' . $this->title . '", `portfolio_type_id`=' . $this->portfolioType->id . ', `shortDesc`="' . $this->shortDesc . '", `desc`="' . $this->desc . '" WHERE id=' . $this->id;
         $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
         $db->openConnection();
         $result = $db->executeUpdate($sql);

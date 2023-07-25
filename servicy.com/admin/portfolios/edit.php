@@ -280,7 +280,7 @@ if (empty($portfolio)) {
                                                     <option>Select Portfolio Type</option>
                                                     <?php
                                                         foreach (PortfolioType::getPortfolioTypes() as $item) {
-                                                            echo '<option ' . ($portfolio->portfolioTypeId === $item->id ? 'selected' : '') . ' value="' . $item->id . '">' . $item->title . '</option>';
+                                                            echo '<option ' . ($portfolio->portfolioType->id === $item->id ? 'selected' : '') . ' value="' . $item->id . '">' . $item->title . '</option>';
                                                         }
                                                     ?>
                                                 </select>

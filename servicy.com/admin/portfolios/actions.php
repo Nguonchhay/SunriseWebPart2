@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = intval($_POST['id']);
             $editUrl = getFullUrl('admin/portfolios/edit.php?id=' . $id);
             $title = $_POST['title'];
-            $portfolioTypeId = $_POST['portfolio_type_id'];
+            $portfolioTypeId = intval($_POST['portfolio_type_id']);
             $shortDesc = $_POST['shortDesc'];
             $desc = $_POST['desc'];
             $image = $_FILES['image'];
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $id,
                 $imagePath,
                 $title,
-                $portfolioTypeId,
+                new PortfolioType('', $portfolioTypeId),
                 $shortDesc,
                 $desc
             );
