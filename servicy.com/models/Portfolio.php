@@ -129,6 +129,54 @@ class Portfolio {
         return $result;
     }
 
+    public static function getPagination($limit, $offset) {
+        // $pagination = [
+        //     'numPage' => 4,
+        //     'currentPage' => 1,
+        //     'linkPages' => [
+        //         [ 'link' => getFullUrl('/portfolio.php?limit=' . $limit . '&offset=0') ],
+        //         [ 'link' => getFullUrl('/portfolio.php?limit=' . $limit . '&offset=3') ],
+        //         [ 'link' => getFullUrl('/portfolio.php?limit=' . $limit . '&offset=6') ],
+        //         [ 'link' => getFullUrl('/portfolio.php?limit=' . $limit . '&offset=9') ]
+        //     ]
+        // ];
+        $pagination = [
+            'numPage' => 0,
+            'currentPage' => 1,
+            'linkPages' => []
+        ];
+
+        $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
+        $db->openConnection();
+        $sql = 'SELECT COUNT(*) FROM portfolios;';
+        $row = $db->executeOneQuery($sql);
+        $count = 0;
+        if (is_array($row) && count($row)) {
+            $count = intval($row[0]);
+        }
+
+        $pagination['numPage'] = intval($count / $limit);
+        if ($count % $limit != 0) {
+            $pagination['numPage']++;
+        }
+
+        for ($i = 0; $i < $pagination['numPage']; $i++) {
+            /**
+             * $offset = $i * $limit
+             * 0 => 0 * 3,
+             * 3 => 1 * 3,
+             * 6 = 2 * 3,
+             * 9 => 3 * 3
+             */
+            $calOffset = $i * $limit;
+            $pagination['linkPages'][$i] = [
+                'link' => getFullUrl('/portfolio.php?limit=' . $limit . '&offset=' . $calOffset)
+            ];
+        }
+
+        return $pagination;
+    }
+
 }
 
 ?>
