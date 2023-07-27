@@ -17,14 +17,18 @@ class Portfolio {
     ) {}
 
 
-    public function getPortfolios() {
+    public function getPortfolios($limit = 0, $offset = 0) {
         $portfolios = [];
         $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
         $db->openConnection();
         $sql = '
                 SELECT portfolios.id, portfolios.imageUrl, portfolios.title, portfolio_types.id AS portfolioTypeId, portfolio_types.title AS portfolioTypeTitle, portfolios.shortDesc, portfolios.desc 
-                FROM portfolios INNER JOIN portfolio_types ON portfolios.portfolio_type_id = portfolio_types.id;
+                FROM portfolios INNER JOIN portfolio_types ON portfolios.portfolio_type_id = portfolio_types.id 
         ';
+
+        if ($limit > 0) {
+            $sql .= ' LIMIT ' . $limit . ' OFFSET ' . $offset;
+        }
 
         $result = $db->executeQuery($sql);
         foreach ($result as $row) {
@@ -41,9 +45,9 @@ class Portfolio {
         return $portfolios;
     }
 
-    public function renderPortfolios() {
+    public function renderPortfolios($limit = 0, $offset = 0) {
         $htmlContent = '<div class="row">';
-        foreach ($this->getPortfolios() as $portfolio) {
+        foreach ($this->getPortfolios($limit, $offset) as $portfolio) {
             $htmlContent .= '
                 <div class="col-lg-4 col-sm-6 mb-4">
                     <div class="portfolio-item">
