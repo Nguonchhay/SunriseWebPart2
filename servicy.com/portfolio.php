@@ -38,9 +38,9 @@
                 <?php
                     $limit = $_GET['limit'] ?? 0;
                     $offset = $_GET['offset'] ?? 0;
-                    echo (new Portfolio(0, '', '', '', '', ''))->renderPortfolios($limit, $offset);
+                    echo (new Portfolio(0, '', '', '', '', ''))->renderPortfolios($offset);
 
-                    $pagination = Portfolio::getPagination($limit, $offset);
+                    $pagination = Portfolio::getPagination($offset);
                     if ($pagination['numPage'] > 0) {
                 ?>
                         <div class="d-flex justify-content-center">
@@ -56,7 +56,23 @@
                                         for ($i = 0; $i < $pagination['numPage']; $i++) {
                                             $link = $pagination['linkPages'][$i]['link'];
                                     ?>
-                                            <li class="page-item"><a class="page-link" href="<?=$link?>"><?=($i+1)?></a></li>
+                                            <li class="page-item">
+                                                <?php
+                                                    if ($i == ($pagination['currentPage'] - 1)) {
+                                                ?>
+                                                        <a class="page-link active" href="javascript:void">
+                                                            <?=($i+1)?>
+                                                        </a>
+                                                <?php
+                                                    } else {
+                                                ?>
+                                                        <a class="page-link" href="<?=$link?>">
+                                                            <?=($i+1)?>
+                                                        </a>
+                                                <?php
+                                                    }
+                                                ?>
+                                            </li>
                                     <?php 
                                         }
                                     ?>

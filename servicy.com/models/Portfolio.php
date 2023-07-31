@@ -17,7 +17,7 @@ class Portfolio {
     ) {}
 
 
-    public function getPortfolios($limit = 0, $offset = 0) {
+    public function getPortfolios($offset = 0) {
         $portfolios = [];
         $db = new DatabaseService(DB_HOST, DB_USER, DB_PASSWORD);
         $db->openConnection();
@@ -26,6 +26,7 @@ class Portfolio {
                 FROM portfolios INNER JOIN portfolio_types ON portfolios.portfolio_type_id = portfolio_types.id 
         ';
 
+        $limit = PORTFOLIO_PAGINATION_LIMIT;
         if ($limit > 0) {
             $sql .= ' LIMIT ' . $limit . ' OFFSET ' . $offset;
         }
@@ -45,9 +46,9 @@ class Portfolio {
         return $portfolios;
     }
 
-    public function renderPortfolios($limit = 0, $offset = 0) {
+    public function renderPortfolios($offset = 0) {
         $htmlContent = '<div class="row">';
-        foreach ($this->getPortfolios($limit, $offset) as $portfolio) {
+        foreach ($this->getPortfolios($offset) as $portfolio) {
             $htmlContent .= '
                 <div class="col-lg-4 col-sm-6 mb-4">
                     <div class="portfolio-item">
@@ -129,7 +130,7 @@ class Portfolio {
         return $result;
     }
 
-    public static function getPagination($limit, $offset) {
+    public static function getPagination($offset) {
         // $pagination = [
         //     'numPage' => 4,
         //     'currentPage' => 1,
@@ -140,6 +141,7 @@ class Portfolio {
         //         [ 'link' => getFullUrl('/portfolio.php?limit=' . $limit . '&offset=9') ]
         //     ]
         // ];
+        $limit = PORTFOLIO_PAGINATION_LIMIT;
         $pagination = [
             'numPage' => 0,
             'currentPage' => 1,
@@ -170,9 +172,11 @@ class Portfolio {
              */
             $calOffset = $i * $limit;
             $pagination['linkPages'][$i] = [
-                'link' => getFullUrl('/portfolio.php?limit=' . $limit . '&offset=' . $calOffset)
+                'link' => getFullUrl('/portfolio.php?offset=' . $calOffset . '#portfolio')
             ];
         }
+
+        $pagination['currentPage'] = intval($offset / $limit) + 1;
 
         return $pagination;
     }
