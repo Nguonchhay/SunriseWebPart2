@@ -35,6 +35,12 @@ require_once __DIR__ . "/../constants.php";
             <span>Portfolios</span></a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="<?=getFullUrl('admin/contact_forms/index.php')?>">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Contact Forms</span></a>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 
