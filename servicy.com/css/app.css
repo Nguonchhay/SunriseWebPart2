@@ -1,1 +1,6 @@
 /* Customer CSS */
+section#contact form#contactForm  .first-name {
+    position: absolute;
+    top: -150px;
+    left: -150px;
+}

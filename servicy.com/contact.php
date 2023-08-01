@@ -43,6 +43,9 @@
                     <input type="hidden" name="from" value="store" />
                     <div class="row align-items-stretch mb-5">
                         <div class="col-md-6">
+                            <div class="form-group first-name">
+                                <input class="form-control" name="firstname" id="firstname" type="text" value="" placeholder="Your First Name" />
+                            </div>
                             <div class="form-group">
                                 <!-- Name input-->
                                 <input class="form-control" name="fullname" id="name" type="text" placeholder="Your Name *" required />

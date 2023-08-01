@@ -14,6 +14,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     switch ($from) {
         case 'store':
             $requestedUrl = getFullUrl('contact.php');
+            $firstname = $_POST['firstname'];
+            /**
+             * Apply spam protection
+             * 1. Honeypot
+             * 2. Captcha
+             * 3. Recaptcha
+             * 4. Invisible reCAPTCHA
+             */
+
+            // Apply honeypot technique
+            if (!empty($firstname)) {
+                header("Location: " . $requestedUrl);
+                exit();
+            }
+            
+
             $fullname = $_POST['fullname'];
             $email = $_POST['email'];
             $phone = $_POST['phone'];
