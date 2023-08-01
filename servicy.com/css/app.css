@@ -4,3 +4,9 @@ section#contact form#contactForm  .first-name {
     top: -150px;
     left: -150px;
 }
+
+
+.captcha .text label {
+    color: #fff;
+    font-size: 3rem;
+}

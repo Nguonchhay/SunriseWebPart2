@@ -1,5 +1,12 @@
 <?php
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
     require_once "./partials/page.php";
+    $firstValue = rand(1, 50);
+    $secondValue = rand(1, 50);
+    $_SESSION['captcha_answer'] = intval($firstValue + $secondValue);
 ?>
 
 <!DOCTYPE html>
@@ -57,6 +64,20 @@
                             <div class="form-group mb-md-0">
                                 <!-- Phone number input-->
                                 <input class="form-control" name="phone" id="phone" type="tel" placeholder="Your Phone *" required />
+                            </div>
+                            <div class="form-group mb-md-0">
+                                <div class="row mt-4 captcha">
+                                    <div class="col-6 d-flex justify-content-center">
+                                        <div class="text">
+                                            <label>
+                                                <?=$firstValue?> + <?=$secondValue?> = 
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                    <input class="form-control" name="answer" id="answer" type="text" placeholder="Your answer *" required />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">

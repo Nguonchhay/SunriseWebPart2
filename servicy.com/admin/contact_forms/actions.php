@@ -4,6 +4,10 @@ ini_set ('display_errors', 1);
 ini_set ('display_startup_errors', 1);  
 error_reporting (E_ALL); 
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once __DIR__ . '/../constants.php';
 require_once __DIR__ . '/../../models/ContactForm.php';
 
@@ -14,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     switch ($from) {
         case 'store':
             $requestedUrl = getFullUrl('contact.php');
-            $firstname = $_POST['firstname'];
+            
             /**
              * Apply spam protection
              * 1. Honeypot
@@ -24,7 +28,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
              */
 
             // Apply honeypot technique
-            if (!empty($firstname)) {
+            // $firstname = $_POST['firstname'];
+            // if (!empty($firstname)) {
+            //     header("Location: " . $requestedUrl);
+            //     exit();
+            // }
+
+            // Apply Captcha technique
+            $answer = intval($_POST['answer']);
+            if ($answer != $_SESSION['captcha_answer']) {
                 header("Location: " . $requestedUrl);
                 exit();
             }
